@@ -1,19 +1,13 @@
+
+import { NextResponse } from 'next/server';
+import { supabase } from '@/lib/supabaseClient';
+
 export async function GET() {
-  const users = [
-    { id: 1, name: "ahmed" },
-    { id: 2, name: "mohamed" }
-  ]
+  const { data, error } = await supabase.from('contacts').select('*');
 
-  return Response.json(users)
-}
-
-export async function POST(request: Request) {
-  const body = await request.json()
-
-  const user = {
-    id: Date.now(),
-    name: body.name
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  return Response.json(user)
+  return NextResponse.json(data);
 }
