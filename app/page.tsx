@@ -1,8 +1,13 @@
+"use client"
 import Link from 'next/link';
 import { UserButton, SignInButton, SignedIn, SignedOut } from "@clerk/nextjs";
 import './globals.css';
+import { useEffect } from 'react';
 
 export default function Home() {
+  useEffect(() => {
+    fetch('/api/limit', { method: 'POST' });  
+  }, []);
   return (
     <main className="min-h-screen w-full bg-[#54595f] from-slate-700 to-slate-800 flex flex-col">
       <nav className="w-full px-8 py-6 flex justify-between items-center max-w-7xl mx-auto">

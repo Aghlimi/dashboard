@@ -29,25 +29,3 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     const result = { ...contact, agency_name: agency?.name ?? null };
     return NextResponse.json(result);
 }
-
-
-
-// export default async function handler(req: Request, { params }: { params: { id: string } }) {
-//     const { id } = params;
-//     const { data, error } = await supabase
-//         .from('agencies')
-//         .select('*')
-//         .eq('id', id)
-//         .single();
-
-//     if (error) {
-//         return new Response(JSON.stringify({ error: error.message }), {
-//             status: 500,
-//             headers: { 'Content-Type': 'application/json' },
-//         });
-//     }
-//     return new Response(JSON.stringify({ agency: data }), {
-//         status: 200,
-//         headers: { 'Content-Type': 'application/json' },
-//     });
-// }

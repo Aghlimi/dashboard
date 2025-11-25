@@ -13,7 +13,17 @@ const dashboardPage = () => {
     const [limit, setLimit] = useState<boolean>(false);
     
     useEffect(() => {
-
+        async function fetchLimitStatus() {
+            try {
+                const response = await fetch('/api/limit');
+                const result = await response.json();
+                setLimit(result.message !== "Allowed");
+                console.log("Limit Status:", limit);
+            } catch (error) {
+                console.log("Error fetching limit status:", error);
+            }
+        }
+        fetchLimitStatus();
     }, []);
     return (<div className="max-w-7xl mx-auto p-4">
         <NavBar />
