@@ -6,7 +6,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <ClerkProvider>
       <html lang="en" className='bg-[#54595f]'>
         <link rel="icon" href="/logo.jpeg" type="image/x-icon"></link>
-        <body >{children}</body>
+        <body >
+          <p id='unsuported' >
+            THIS SCREEN SIZE NOT SUPORTED
+          </p>
+          {children}
+          </body>
       </html>
     </ClerkProvider>
   )
