@@ -6,9 +6,11 @@ export default function Home() {
     <main className="min-h-screen w-full bg-gradient-to-b bg-red-500 from-slate-50 to-slate-100 flex flex-col">
       <nav className="w-full px-8 py-6 flex justify-between items-center max-w-7xl mx-auto">
         <div className="font-bold text-xl tracking-tight text-slate-900">
-          <img src="https://media.licdn.com/dms/image/v2/D4E0BAQGwXWaBd7gVRw/company-logo_200_200/company-logo_200_200/0/1697922914052?e=1765411200&v=beta&t=zRKvb_RI5-a0PaqQ6UM1x2SmSmjyx8GvJSGSJHy2vT4" className='w-[50px] rounded-[100em]' alt="Logo" />
+          <a href="/">
+            <img src="/logo.jpeg" className='w-[50px] rounded-[100em]' alt="Logo" />
+          </a>
         </div>
-                
+
         <a href="https://infinitivebyte.io/" target="_blank" >About Us</a>
 
       </nav>
