@@ -13,7 +13,7 @@ export async function GET(request: Request) {
 
   const { data, error } = await supabase
     .from("contacts")
-    .select("first_name, last_name");
+    .select("first_name, last_name, id");
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

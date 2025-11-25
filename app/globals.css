@@ -13,10 +13,10 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  /* :root {
     --background: #f0f0f0;
     --foreground: #54595f;
-  }
+  } */
 }
 
 body {
@@ -28,7 +28,7 @@ body {
 #unsuported {
   display: none;
 }
-@media (max-width: 269px) {
+@media (max-width: 400px) {
   #unsuported {
     display: block;
     position: fixed;
@@ -48,5 +48,11 @@ body {
 @media (max-width: 700px) {
   .searchControl {
     flex-direction: column-reverse;
+  }
+  .datacontainer{
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    /* background-color: red; */
   }
 }

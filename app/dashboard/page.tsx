@@ -11,10 +11,11 @@ const dashboardPage = () => {
     const [page, setPage] = useState<string>('a');
     const [search, setSearch] = useState<string>('');
     const [limit, setLimit] = useState<boolean>(false);
+    
     useEffect(() => {
 
     }, []);
-    return (<>
+    return (<div className="max-w-7xl mx-auto p-4">
         <NavBar />
         <div className="searchControl flex">
             <SearchBar search={search} setSearch={setSearch} />
@@ -34,7 +35,7 @@ const dashboardPage = () => {
                 }
             </>
         }
-    </>);
+    </div>);
 }
 
 

@@ -9,9 +9,8 @@ export async function GET(request: Request) {
   const query = searchParams.get("query") || "";
   const { data, error } = await supabase
     .from("agencies")
-    .select("*")
+    .select("name, id")
     .ilike("name", `%${query}%`);
-
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
