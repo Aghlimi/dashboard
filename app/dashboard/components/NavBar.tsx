@@ -6,7 +6,15 @@ function NavBar() {
                     <img src="/logo.jpeg" className='w-[50px] rounded-[100em]' alt="Logo" />
                 </a>
             </div>
-            <a href="https://infinitivebyte.io/" target="_blank" className="font-bold">About Us</a>
+            <h1
+                className="text-slate-50 font-bold text-xl shadow-lg"
+                style={{
+                    fontFamily: "Poppins, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial",
+                    fontStyle: "italic",
+                }}
+            >
+                Dashboard Page
+            </h1>
         </nav>
     );
 }
