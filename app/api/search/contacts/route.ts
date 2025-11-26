@@ -3,7 +3,6 @@ import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabaseClient';
 import { auth } from '@clerk/nextjs/server';
 import { LimitReached } from '../../limit/limitsFunctions';
-// import {limi} from '../../limit/route';
 
 function normalizeWhitespace(str: string): string {
   return str.replace(/\s+/g, ' ').trim();
@@ -24,10 +23,12 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
 
   const query = searchParams.get("query") || "";
+  const index = searchParams.get("index") || "";
 
   const { data, error } = await supabase
     .from("contacts")
     .select("first_name, last_name, id");
+
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
@@ -38,8 +39,8 @@ export async function GET(request: Request) {
       const normalizedFullName = normalizeWhitespace(fullName).toLowerCase();
       return normalizedFullName.includes(normalizedQuery);
     });
-    return NextResponse.json(filteredData);
+    return NextResponse.json({ data: filteredData.splice(Number(index) * 10, Number(index) * 10 + 9), length: filteredData?.length || 0 });
   }
 
-  return NextResponse.json(data);
+  return NextResponse.json({ data:data.slice(Number(index) * 10, Number(index) * 10 + 9) ,length: data?.length || 0});
 }

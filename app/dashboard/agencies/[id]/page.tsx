@@ -49,7 +49,7 @@ export default function AgencyPage({ params }: any) {
         data.push({ key: a, value: (agencyData as any)[a] });
     }
     return (<div className="max-w-7xl mx-auto p-4">
-        <button onClick={() => window.history.back()} className="mb-4 px-4 py-2 bg-gray-300 rounded">Back</button>
+        <button onClick={() => window.location.href = '/dashboard'} className="mb-4 px-4 py-2 bg-gray-300 rounded">Back</button>
         <h1 className="text-2xl font-bold mb-4">details that we have about <em>{agencyData?.name}</em></h1>
         {
             agencyData ? (

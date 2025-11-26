@@ -6,12 +6,16 @@ import ControlBar from "./components/ControlBar";
 import AgenciesList from "./components/AgenciesList";
 import ContactsList from "./components/ContactsList";
 import UpgradeBanner from "./components/UpgradeBanner";
+import MultiPageControl from "./components/MultiPageControl";
 
 const dashboardPage = () => {
     const [page, setPage] = useState<string>('a');
     const [search, setSearch] = useState<string>('');
     const [limit, setLimit] = useState<boolean>(false);
-    
+    const [index, setIndex] = useState<number>(0);
+    const [length, setLength] = useState<number>(0);
+
+    useEffect(() => { setIndex(0) }, [search]);
     useEffect(() => {
         async function fetchLimitStatus() {
             try {
@@ -38,13 +42,22 @@ const dashboardPage = () => {
             ||
             <>
                 {
-                    page === 'a' && <AgenciesList search={search} />
+                    page === 'a' && <AgenciesList
+                        searchM={{ search }}
+                        indexM={{ index }}
+                        lengthM={{ length, setLength }} />
                 }
                 {
-                    page === 'b' && <ContactsList search={search} />
+                    page === 'b' && <ContactsList
+                        searchM={{ search, setSearch }}
+                        indexM={{ index, setIndex }}
+                        lengthM={{ length, setLength }} />
                 }
             </>
         }
+        <MultiPageControl
+            indexM={{ index, setIndex }}
+            lengthM={{ length, setLength }} />
     </div>);
 }
 

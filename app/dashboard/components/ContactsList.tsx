@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 
-
-
-function ContactsList({ search }: { search: string }) {
+function ContactsList({ searchM, indexM, lengthM }: { searchM: { search: string, setSearch: (search: string) => void }, indexM: { index: number, setIndex: (number: number) => void }, lengthM: { length: number, setLength: (number: number) => void } }) {
+    const { search } = searchM;
+    const { index } = indexM;
+    const { length, setLength } = lengthM;
     const [List, setList] = useState<Array<any>>([]);
     const ClickHandler = (id: string) => {
         window.open(`/dashboard/contacts/${id}`, '_blank');
@@ -10,15 +11,16 @@ function ContactsList({ search }: { search: string }) {
     useEffect(() => {
         async function fetchData() {
             try {
-                const response = await fetch(`/api/search/contacts?query=${encodeURIComponent(search)}`);
+                const response = await fetch(`/api/search/contacts?index=${index}&query=${encodeURIComponent(search)}`);
                 const data = await response.json();
-                setList(data);
+                setList(data.data);
+                setLength(data.length);
             } catch (error) {
                 console.log("Error fetching contacts:", error);
             }
         }
         fetchData();
-    }, [search]);
+    }, [search,index,length]);
 
     return (
         <div className="w-full max-w-7xl mx-auto p-4">

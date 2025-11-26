@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
-function AgenciesList({ search }: { search: string }) {
+function AgenciesList({ searchM, indexM, lengthM }: { searchM: { search: string }, indexM: { index: number }, lengthM: { length: number, setLength: (number: number) => void } }) {
+    const { search } = searchM;
+    const { index } = indexM;
+    const { length, setLength } = lengthM;
     const [List, setList] = useState<Array<any>>([]);
 
     const ClickHandler = (id: string) => {
@@ -9,15 +12,16 @@ function AgenciesList({ search }: { search: string }) {
     useEffect(() => {
         async function fetchData() {
             try {
-                const response = await fetch(`/api/search/agencies?query=${encodeURIComponent(search)}`);
+                const response = await fetch(`/api/search/agencies?index=${index}&query=${encodeURIComponent(search)}`);
                 const data = await response.json();
-                setList(data);
+                setList(data.data);
+                setLength(data.length);
             } catch (error) {
                 console.log("Error fetching agencies:", error);
             }
         }
         fetchData();
-    }, [search]);
+    }, [search, index, length]);
 
     return (
         <div className="w-full max-w-7xl mx-auto p-4">
