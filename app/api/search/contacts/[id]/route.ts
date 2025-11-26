@@ -24,6 +24,9 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
         console.log("Error fetching contact:", err1);
         return NextResponse.json({ error: err1.message }, { status: 500 });
     }
+    if (!contact ) {
+        return NextResponse.json({ error: "Not found" }, { status: 404 });
+    }
 
     let agency = null;
     if (contact?.agency_id) {

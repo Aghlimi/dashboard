@@ -34,6 +34,10 @@ export default function AgencyPage({ params }: any) {
             const { id } = await params;
             try {
                 const response = await fetch(`/api/search/agencies/${id}`);
+                if (!response.ok) {
+                    setAgencyData(null);
+                    return;
+                }
                 const result = await response.json();
                 setAgencyData(result);
                 // console.log("Agency Data");
@@ -50,26 +54,27 @@ export default function AgencyPage({ params }: any) {
     }
     return (<div className="max-w-7xl mx-auto p-4">
         <button onClick={() => window.location.href = '/dashboard'} className="mb-4 px-4 py-2 bg-gray-300 rounded">Back</button>
-        <h1 className="text-2xl font-bold mb-4">details that we have about <em>{agencyData?.name}</em></h1>
+        {!agencyData && <p>Agency not found.</p>}
         {
             agencyData ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {data.map((item, index) => (
-                        <div key={index} className="datacontainer p-4 border border-gray-300 rounded-md flex justify-between "
-                            onClick={(e: any) => {
-                                if (item.key == 'website' && agencyData?.id) {
-                                    window.open(agencyData.website as string, '_blank');
-                                }
-                            }}
-                        >
-                            <h3 className="text-lg font-semibold">{item.key}</h3>
-                            <p className="text-white">{item.value !== null ? item.value.toString() : 'N/A'}</p>
-                        </div>
-                    ))}
-                </div>
-            ) : (
-                <p>Loading agency data...</p>
-            )
+                <>
+                    <h1 className="text-2xl font-bold mb-4">details that we have about <em>{agencyData?.name}</em></h1>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {data.map((item, index) => (
+                            <div key={index} className="datacontainer p-4 border border-gray-300 rounded-md flex justify-between "
+                                onClick={(e: any) => {
+                                    if (item.key == 'website' && agencyData?.id) {
+                                        window.open(agencyData.website as string, '_blank');
+                                    }
+                                }}
+                            >
+                                <h3 className="text-lg font-semibold">{item.key}</h3>
+                                <p className="text-white">{item.value !== null ? item.value.toString() : 'N/A'}</p>
+                            </div>
+                        ))}
+                    </div>
+                </>
+            ) : null
         }
     </div>);
 };
