@@ -1,7 +1,19 @@
 import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabaseClient';
+import { auth } from '@clerk/nextjs/server';
+import { stillHaveAccess } from '@/app/api/limit/limitsFunctions';
+
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
+    const { userId } = await auth();
+    if (!userId) {
+        return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+    }
+
     const { id } = await params;
+    const access = await stillHaveAccess(userId, id);
+    if (!access) {
+        return NextResponse.json({ error: "limit_exceeded" }, { status: 403 });
+    }
 
     const { data: contact, error: err1 } = await supabase
         .from('contacts')
@@ -20,9 +32,10 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
             .select('name')
             .eq('id', contact.agency_id)
             .maybeSingle();
-        console.log("Error fetching agency:", err2);
-        if (err2)
+        if (err2) {
+            console.log("Error fetching agency:", err2);
             return NextResponse.json({ error: err2.message }, { status: 500 });
+        }
         agency = agencyData;
     }
 

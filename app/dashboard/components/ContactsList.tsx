@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 function ContactsList({ search }: { search: string }) {
     const [List, setList] = useState<Array<any>>([]);
     const ClickHandler = (id: string) => {
-        window.location.href = `/dashboard/contacts/${id}`;
+        window.open(`/dashboard/contacts/${id}`, '_blank');
     }
     useEffect(() => {
         async function fetchData() {
