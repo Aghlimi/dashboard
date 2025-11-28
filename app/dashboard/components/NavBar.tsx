@@ -1,20 +1,27 @@
-function NavBar() {
+import { UserButton } from "@clerk/nextjs";
+import { useRef } from "react";
+
+const SearchInput = ({ search, setSearch }: any) => {
+    const ref = useRef<HTMLInputElement>(null);
+    const click = () => {
+        ref.current?.focus();
+    }
     return (
-        <nav className="w-full p-4 flex justify-between items-center max-w-7xl bg-[#54595f] mx-auto">
-            <div className="font-bold text-xl tracking-tight text-slate-900">
-                <a href="/">
-                    <img src="/logo.jpeg" className='w-[50px] rounded-[100em]' alt="Logo" />
-                </a>
+        <div className="flex items-center gap-2  rounded-full px-2 " onClick={click}>
+            <img src="/search.png" width={'20px'} alt="" onClick={click} />
+            <input type="text" placeholder="Search..." ref={ref} value={search} onChange={(e) => setSearch(e.target.value)}
+            className="focus:outline-none" />
+        </div>
+    );
+}
+
+function NavBar({ search, setSearch }: any) {
+    return (
+        <nav className="w-full p-3 NavBar bg-white  rounded-xl shadow-xl flex justify-between">
+            <SearchInput search={search} setSearch={setSearch}  />
+            <div className="flex">
+            <UserButton afterSignOutUrl="/" />
             </div>
-            <h1
-                className="text-slate-50 font-bold text-xl shadow-lg"
-                style={{
-                    fontFamily: "Poppins, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial",
-                    fontStyle: "italic",
-                }}
-            >
-                Dashboard Page
-            </h1>
         </nav>
     );
 }

@@ -24,25 +24,30 @@ export async function GET(request: Request) {
 
   const query = searchParams.get("query") || "";
   const index = searchParams.get("index") || "";
+  const filter = searchParams.get("filter") || "";
 
-  const { data, error } = await supabase
-    .from("contacts")
-    .select("first_name, last_name, id");
-
+  const { data, error } = await supabase.rpc("contacts_with_agency", {
+    filter_with_agency: filter === "agency"
+  });
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
   if (query || query.trim() !== "") {
     const normalizedQuery = normalizeWhitespace(query).toLowerCase();
-    const filteredData = data?.filter(contact => {
+    const filteredData = data?.filter((contact: any) => {
       const fullName = `${contact.first_name} ${contact.last_name}`;
       const normalizedFullName = normalizeWhitespace(fullName).toLowerCase();
       return normalizedFullName.includes(normalizedQuery);
     });
-    return NextResponse.json({ data: filteredData.splice(Number(index) * 10, Number(index) * 10 + 9), length: filteredData?.length || 0 });
+    const pageData = filteredData.slice(Number(index) * (Number(process.env.PAGE_SIZE) || 10), Number(index) * (Number(process.env.PAGE_SIZE) || 10) + (Number(process.env.PAGE_SIZE) || 10));
+    return NextResponse.json(
+      {
+        data: pageData,
+        length: filteredData?.length || 0
+      });
   }
-
-  return NextResponse.json({ data: data.slice(Number(index) * 10, Number(index) * 10 + 9), length: data?.length || 0 }, {
-    headers: { "Cache-Control": "public, max-age=10000" }
+  const pageData = data.slice(Number(index) * (Number(process.env.PAGE_SIZE) || 10), Number(index) * (Number(process.env.PAGE_SIZE) || 10) + (Number(process.env.PAGE_SIZE) || 10));
+  return NextResponse.json({ data: pageData, length: data?.length || 0 }, {
+    headers: { "Cache-Control": "public, max-age=600" }
   });
 }
