@@ -1,0 +1,50 @@
+@import "tailwindcss";
+/* .menucontainer {
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    height: 100vh;
+
+} */
+@keyframes menu {
+    from {
+        visibility: visible;
+        left: 0px;
+    }
+    to {
+        visibility: hidden;
+        left: -200px;
+    }
+}
+.menu-button{
+    left: -110px;
+    top:0;
+}
+@media (max-width: 700px) {
+    .menucontainer {
+        position: absolute;
+        z-index: 10;
+        left: 0;
+        visibility: hidden;
+    }
+    .menu-button{
+        left: 0px;
+        top:0;
+    }
+    .listcontainer {
+        overflow: scroll;
+    }
+    .second_field {
+        display: none;
+    }
+
+}
+@media (max-width: 1200px) {
+    /* .second_field {
+        display: none;
+    } */
+    .third_field {
+        display: none;
+    }
+}
+*{
+    scrollbar-width: none;
+}
