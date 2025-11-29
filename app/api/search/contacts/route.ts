@@ -26,28 +26,16 @@ export async function GET(request: Request) {
   const index = searchParams.get("index") || "";
   const filter = searchParams.get("filter") || "";
 
-  const { data, error } = await supabase.rpc("contacts_with_agency", {
-    filter_with_agency: filter === "agency"
+  const { data, error } = await supabase.rpc("get_contacts", {
+    p_query: query || "",
+    p_from: Number(index) * (Number(process.env.PAGE_SIZE) || 10),
+    p_to: Number(index) * (Number(process.env.PAGE_SIZE) || 10) + (Number(process.env.PAGE_SIZE) || 10) - 1,
+    p_filter: filter == "agency"
   });
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
-  if (query || query.trim() !== "") {
-    const normalizedQuery = normalizeWhitespace(query).toLowerCase();
-    const filteredData = data?.filter((contact: any) => {
-      const fullName = `${contact.first_name} ${contact.last_name}`;
-      const normalizedFullName = normalizeWhitespace(fullName).toLowerCase();
-      return normalizedFullName.includes(normalizedQuery);
-    });
-    const pageData = filteredData.slice(Number(index) * (Number(process.env.PAGE_SIZE) || 10), Number(index) * (Number(process.env.PAGE_SIZE) || 10) + (Number(process.env.PAGE_SIZE) || 10));
-    return NextResponse.json(
-      {
-        data: pageData,
-        length: filteredData?.length || 0
-      });
-  }
-  const pageData = data.slice(Number(index) * (Number(process.env.PAGE_SIZE) || 10), Number(index) * (Number(process.env.PAGE_SIZE) || 10) + (Number(process.env.PAGE_SIZE) || 10));
-  return NextResponse.json({ data: pageData, length: data?.length || 0 }, {
-    headers: { "Cache-Control": "public, max-age=600" }
+  return NextResponse.json({ data: data.map(((e: any) => e.data)), length: data[0]?.length || 0 }, {
+    headers: process.env.NODE_ENV !== "development" ? { "Cache-Control": "public, max-age=600" } : {}
   });
 }

@@ -20,5 +20,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
         return NextResponse.json({ error: "internal server error" }, { status: 500 });
     }
 
-    return NextResponse.json(data[0]);
+    return NextResponse.json(data[0],{
+        headers: process.env.NODE_ENV !== "development" ? { "Cache-Control": "public, max-age=600" } : {}
+    });
 }

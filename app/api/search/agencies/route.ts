@@ -12,26 +12,21 @@ export async function GET(request: Request) {
   const page = Math.max(0, Number(index));
   const from = page * (Number(process.env.PAGE_SIZE) || 10);
   const to = -1 + from + (Number(process.env.PAGE_SIZE) || 10);
-  let queryBuilder = supabase
-    .from("agencies")
-    .select("name, id, state, type", { count: "exact" })
-    .ilike("name", `%${query}%`)
-    .range(from, to);
 
-  if (filter.trim().length > 0 && (filter.trim() =='City' || filter.trim() =='County')) {
-    queryBuilder = queryBuilder.eq("type", filter.trim());
-  }
-  const { data, error, count } = await queryBuilder;
-
+  const {data,error} = await supabase.rpc("get_agencies", {
+    p_query: query || "",
+    p_from: from,
+    p_to: to,
+    p_filter: filter || null
+  });
   if (error) {
     console.log("Supabase error:", error.message);
     return NextResponse.json({ error: "internal server error" }, { status: 500 });
   }
-  console.log("first id", data?.[0]?.id);
   return NextResponse.json({
-    data: data || [],
-    length: count ?? 0
+    data: data.map(((e: any) => e.data)) || [],
+    length: data[0]?.length || 0
   }, {
-    headers: { "Cache-Control": "public, max-age=600" }
+    headers: process.env.NODE_ENV !== "development" ? { "Cache-Control": "public, max-age=600" } : {}
   });
 }

@@ -62,20 +62,20 @@ function List({ search, index, setLength, page, filters }: props) {
         return obj;
     }
     return (
-        <div className="w-full  max-w-7xl mx-auto flex flex-col gap-2 justify-between h-full">
+        <div className="w-full  max-w-7xl mx-auto flex flex-col gap-2 h-full">
             <div
                 key={index}
-                className="p-1 px-4 max-h-[50px] h-full border border-gray-300 rounded-md flex items-center"
+                className=" px-5 flex items-center"
             >
-                <p className="flex-1 text-16 text-gray-500 block first_field">
+                <p className="flex-1 text-[18px] text-gray-400 block first_field">
                     {name().first?.trim()}
                 </p>
 
-                <p className="flex-1 text-16 text-center text-gray-500 block second_field">
+                <p className="flex-1 text-[18px] text-center text-gray-400 block second_field">
                     {name().second?.trim()}
                 </p>
 
-                <p className={`flex-1 text-16 text-right text-gray-500 block cursor-pointer select-none third_field ${filters.agncyname || filters.Type !== 'All' ? 'text-blue-800' : 'text-gray-500'
+                <p className={`flex-1 text-[18px] text-right text-gray-400 block cursor-pointer select-none third_field ${filters.agncyname || filters.Type !== 'All' ? 'text-blue-800' : 'text-gray-500'
                     }`} onClick={() => {
                         if (page == 'a') {
                             const types: Array<'All' | 'City' | 'County'> = ['All', 'City', 'County'];
@@ -91,7 +91,7 @@ function List({ search, index, setLength, page, filters }: props) {
             {List?.map((item, index) => (
                 <div
                     key={index}
-                    className="p-1  overflow-hidden px-4 h-full border border-gray-300 rounded-md flex items-center"
+                    className="p-1  overflow-hidden min-h-[40px] px-4 h-fit border border-gray-300 rounded-md flex items-center"
                     onClick={() => ClickHandler(content(item).id||'')}
                 >
                     <p className="flex-1 text-16 text-gray-500 block first_field">

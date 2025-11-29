@@ -6,12 +6,13 @@ import UpgradeBanner from "./components/UpgradeBanner";
 import MultiPageControl from "./components/MultiPageControl";
 import './page.css';
 import LeftMenu from "./components/LeftMenu";
+import Profile from "./components/Profile";
 
-const Profile = () => { return <div>Profile Page</div>; }
+
 const dashboardPage = () => {
     const [page, setPage] = useState<string>('a');
     const [search, setSearch] = useState<string>('');
-    const [limit, setLimit] = useState<boolean>(true);
+    const [limit, setLimit] = useState<boolean>(false);
     const [index, setIndex] = useState<number>(0);
     const [length, setLength] = useState<number>(0);
     const [agncyname, setAgncyname] = useState<boolean>(false);
@@ -30,41 +31,51 @@ const dashboardPage = () => {
             }
         }
         fetchLimitStatus();
-    }, []);
+    }, [page]);
 
     return (
-        <div className="flex bg-[#f0f0f0] p-4 gap-4 h-screen">
-            <div className="w-[200px] h-full bg-white menucontainer rounded-xl shadow-2xl">
-                <LeftMenu page={page} setPage={setPage} />
-            </div>
-            <div className="w-full h-full flex flex-col gap-4 items-center">
-                <NavBar search={search} setSearch={setSearch} />
-                <div className="bg-white rounded-xl  overflow-y-scroll shadow-2xl h-full w-full flex flex-col justify-between p-4 pb-0">
-                    {
-                        limit ? <UpgradeBanner />:
-                    <>
-                    {
-                        (page === 'c' || page === 'a') &&
-                        <>
-                            <List
-                                search={search}
-                                index={index}
-                                setLength={setLength}
-                                page={page}
-                                filters={{ agncyname, setAgncyname, Type, setType }}
-                            />
-                            <MultiPageControl
-                                index={index}
-                                setIndex={setIndex}
-                                length={length}
-                            />
-                        </>
+        <div className="flex bg-blue-100  p-4 gap-4 h-screen">
+            <img className="absolute w-5 h-5 menu-button" src="/menu.jpeg" alt="menu" onClick={() => {
+                const k = document.querySelector('.menucontainer');
+                if (k instanceof HTMLElement) {
+                    if (k.style.visibility === 'hidden' || k.style.visibility === '') {
+                        k.style.visibility = 'visible';
                     }
-                    {page === 'p' &&
-                        <Profile />
+                    else {
+                        k.style.visibility = 'hidden';
                     }
-                    </>
                 }
+            }} />
+            <LeftMenu page={page} setPage={setPage} />
+            <div className="w-full h-full flex flex-col  gap-4 items-center">
+                <NavBar search={search} setSearch={setSearch} />
+                <div className="bg-white rounded-xl  overflow-y-scroll shadow-2xl h-full w-full flex flex-col justify-between p-4 pb-0 pt-2">
+                    {
+                        (limit && page === 'c')  ? <UpgradeBanner /> :
+                            <>
+                                {
+                                    (page === 'c' || page === 'a') ?
+                                        <>
+                                            <List
+                                                search={search}
+                                                index={index}
+                                                setLength={setLength}
+                                                page={page}
+                                                filters={{ agncyname, setAgncyname, Type, setType }}
+                                            />
+                                            <MultiPageControl
+                                                index={index}
+                                                setIndex={setIndex}
+                                                length={length}
+                                            />
+                                        </> : null
+                                }
+                                {page === 'p' ?
+                                    <Profile />
+                                    : null
+                                }
+                            </>
+                    }
                 </div>
             </div>
         </div >

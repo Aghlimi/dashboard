@@ -11,7 +11,7 @@ export function getCurrentDay(): number {
     return numberDate;
 }
 
-export async function LimitReached(userId: string) {
+export async function LimitReached(userId: string, contactId: string | null = null): Promise<boolean> {
     try {
         const { data, error } = await supabase
             .from('limit_controler')
@@ -20,6 +20,10 @@ export async function LimitReached(userId: string) {
             .eq('day', getCurrentDay());
         if (error) {
             console.log("Error checking limit:", error);
+        }
+        if (contactId) {
+            const contactData = data?.find(record => record.contact_id === contactId);
+            return !contactData;
         }
         if (!error && data && data.length >= Number(process.env.LIMIT || 50)) {
             return true;
@@ -30,7 +34,7 @@ export async function LimitReached(userId: string) {
 
 export async function stillHaveAccess(userId: string, contactId: string) {
 
-    if (await LimitReached(userId)) {
+    if (await LimitReached(userId, contactId)) {
         return false;
     }
 

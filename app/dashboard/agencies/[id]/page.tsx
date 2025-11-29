@@ -53,7 +53,7 @@ export default function AgencyPage({ params }: any) {
     }
     console.log("agencyData", data);
     return (<div className="max-w-7xl mx-auto p-4">
-        <button onClick={() => window.location.href = '/dashboard'} className="mb-4 px-4 py-2 bg-gray-300 rounded">Back</button>
+        {/* <button onClick={() => window.location.href = '/dashboard'} className="mb-4 px-4 py-2 bg-gray-300 rounded">Back</button> */}
         {agencyData === 'notfound' && <p>Agency not found.</p>}
         {
             agencyData && agencyData !== 'notfound' ? (
