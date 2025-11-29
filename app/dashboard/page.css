@@ -38,9 +38,9 @@
 
 }
 @media (max-width: 1200px) {
-    .second_field {
+    /* .second_field {
         display: none;
-    }
+    } */
     .third_field {
         display: none;
     }
