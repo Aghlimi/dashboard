@@ -65,6 +65,7 @@ const dashboardPage = () => {
                                                 page={page}
                                                 filters={{ agncyname, setAgncyname, Type, setType }}
                                                 setTmpIndex={setTmpIndex}
+                                                setLimit={setLimit}
                                             />
                                             <MultiPageControl
                                                 index={index}

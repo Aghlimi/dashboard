@@ -13,9 +13,10 @@ type props = {
         setType: (value: 'All' | 'City' | 'County') => void,
     },
     setTmpIndex: (n: number) => void,
+    setLimit: (n: boolean) => void,
 };
 
-function List({ search, index, setLength, page, filters, setTmpIndex }: props) {
+function List({ search, index, setLength, page, filters, setTmpIndex, setLimit }: props) {
     const [List, setList] = useState<Array<any> | null>([]);
     useEffect(() => {
         setList(null);
@@ -42,6 +43,9 @@ function List({ search, index, setLength, page, filters, setTmpIndex }: props) {
                             '')
                     }&index=${index}&query=${encodeURIComponent(search)}`);
                 const data = await response.json();
+                if (!response.ok || response.status === 403) {
+                    setLimit(true);
+                }
                 setList(data.data);
                 setLength(data.length);
                 setTmpIndex(index);
