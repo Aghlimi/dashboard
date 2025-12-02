@@ -1,4 +1,4 @@
-import { SignOutButton, useClerk } from "@clerk/nextjs";
+import { useClerk } from "@clerk/nextjs";
 
 
 export default function LeftMenu({ page, setPage }: any) {

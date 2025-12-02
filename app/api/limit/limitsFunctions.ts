@@ -21,6 +21,7 @@ export async function LimitReached(userId: string, contactId: string | null = nu
         if (error) {
             console.log("Error checking limit:", error);
         }
+        console.log(data);
         if (contactId) {
             const contactData = data?.find(record => record.contact_id === contactId);
             if (contactData) {
@@ -30,7 +31,7 @@ export async function LimitReached(userId: string, contactId: string | null = nu
         if (!error && data && data.length >= Number(process.env.LIMIT || 50)) {
             return true;
         }
-    } catch (err) { }
+    } catch (err) { console.log(err); }
     return false;
 }
 

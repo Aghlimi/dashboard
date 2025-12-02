@@ -4,10 +4,6 @@ import { supabase } from '@/lib/supabaseClient';
 import { auth } from '@clerk/nextjs/server';
 import { LimitReached } from '../../limit/limitsFunctions';
 
-function normalizeWhitespace(str: string): string {
-  return str.replace(/\s+/g, ' ').trim();
-}
-
 export async function GET(request: Request) {
   const { userId } = await auth();
   if (!userId) {

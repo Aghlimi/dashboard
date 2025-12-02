@@ -44,7 +44,7 @@ export default function ContactPage({ params }: any) {
     }, []);
     const data = new Array<any>();
     if (contactData && contactData !== 'notfound' && contactData !== 'limit') {
-        for (let a in contactData as any) {
+        for (const a in contactData as any) {
             if (a == 'agency_id' || a == 'id' || a == 'created_at' || a == 'updated_at' || contactData[a as keyof Contact] === null || contactData[a as keyof Contact] === undefined || contactData[a as keyof Contact] === '') continue;
             data.push({ key: a, value: contactData[a as keyof Contact] });
         }

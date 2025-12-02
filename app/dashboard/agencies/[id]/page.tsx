@@ -47,12 +47,11 @@ export default function AgencyPage({ params }: any) {
         fetchAgencyData();
     }, []);
     const data = new Array<any>();
-    for (let a in agencyData as any) {
+    for (const a in agencyData as any) {
         if (a == 'id' || a == 'created_at' || a == 'updated_at' || (agencyData as any)[a as keyof AgencyData] === null || (agencyData as any)[a as keyof AgencyData] === undefined || (agencyData as any)[a as keyof AgencyData] === '') continue;
         data.push({ key: a, value: (agencyData as any)[a] });
     }
     return (<div className="max-w-7xl mx-auto p-4">
-        {/* <button onClick={() => window.location.href = '/dashboard'} className="mb-4 px-4 py-2 bg-gray-300 rounded">Back</button> */}
         {agencyData === 'notfound' && <p>Agency not found.</p>}
         {
             agencyData && agencyData !== 'notfound' ? (
