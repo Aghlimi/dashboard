@@ -11,7 +11,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             THIS SCREEN SIZE NOT SUPORTED
           </p>
           {children}
-          </body>
+        </body>
       </html>
     </ClerkProvider>
   )
